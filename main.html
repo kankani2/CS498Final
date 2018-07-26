@@ -5,6 +5,32 @@
     <title>Bar Chart</title>
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <style type="text/css">
+    h1{
+        padding-top: 0%;
+        margin-top: 0%;
+        padding-bottom: 0%;
+        margin-bottom: 0%;
+  font-size: 400%;
+  text-align: center;
+}
+body {
+  font: 11px sans-serif;
+  background-color: beige;
+}
+button{
+  background-color:black;
+  color: white;
+
+}
+.curr{
+    background-color:blue;
+
+}
+.Allbuttons{
+    margin-top: 0%;
+    padding-top: 0%;
+    margin-left:45%;
+}
         .chart {
             margin: 10px;
             padding-top: 10px;
@@ -25,7 +51,7 @@
         }
 
         .chart text {
-            fill: #24da82;
+            fill: black;
         }
 
         .chart text.name {
@@ -33,12 +59,44 @@
         }
 
         .chart text.title {
-            fill: #2216ff;
+            fill: black;
+            font: 18px sans-serif;
         }
+        .tooltip {
+  background-color: grey;
+  position: absolute;
+  color: black;
+  width: 100px;
+  height: 28px;
+  pointer-events: none;
+}
+        .info{
+  background-color: black;
+  opacity: 0.5;
+  position: absolute;
+  left:78vw;
+  color:white;
+  height: 80vh;
+  width: 20vw;
+
+}
     </style>
 </head>
 <body>
-<h1>Two sided horiztontal bar chart</h1>
+
+<h1> CS498 Final Project </h1>
+<div class="Allbuttons">
+<button onclick="location.href='intro.html'" >1</button>
+<button class = "curr" onclick="location.href='main.html'">2</button>
+<button onclick="location.href='hdi_bar.html'">3</button>
+<button onclick="location.href='index2.html'">4</button>
+
+<button onclick="location.href='index1.html'">5</button>
+</div>
+<div class= "info">
+Dream
+</div>
+
 <script type="text/javascript">
 
 
@@ -46,7 +104,7 @@
     var chart,
             width = 400,
             bar_height = 20,
-            height = bar_height * 50;
+            height = bar_height * 25;
     var rightOffset = width + labelArea;
 
     var lCol = "ELE2";
@@ -57,6 +115,10 @@
             .range([0, width]);
     var y = d3.scale.ordinal()
             .rangeBands([20, height]);
+
+var tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
 
     function render(data) {
         var chart = d3.select("body")
@@ -90,13 +152,26 @@
                 .attr("width", function (d) {
                     return xFrom(d[lCol]);
                 })
-                .attr("height", y.rangeBand());
+                .attr("height", y.rangeBand())
+                .on("mouseover", function(d) {
+          tooltip.transition()
+               .duration(200)
+               .style("opacity", .7);
+          tooltip.html(d["Country Name"] + "<br/> (" + d[lCol]*80 + ")")
+               .style("left", (d3.event.pageX + 5) + "px")
+               .style("top", (d3.event.pageY - 28) + "px");
+      })
+      .on("mouseout", function(d) {
+          tooltip.transition()
+               .duration(500)
+               .style("opacity", 0);
+      });
 
         chart.selectAll("text.leftscore")
                 .data(data)
                 .enter().append("text")
                 .attr("x", function (d) {
-                    return width - xFrom(d[lCol])-40;
+                    return width - xFrom(d[lCol]) + 20;
                 })
                 .attr("y", function (d) {
                     return y(d["Country Code"]) + y.rangeBand() / 2;
@@ -105,7 +180,7 @@
                 .attr("dy", ".36em")
                 .attr("text-anchor", "end")
                 .attr('class', 'leftscore')
-                .text(function(d){return d[lCol];});
+                .text(function(d){return Math.floor(d[lCol]*80);});
         chart.selectAll("text.name")
                 .data(data)
                 .enter().append("text")
@@ -127,7 +202,20 @@
                 .attr("width", function (d) {
                     return xTo(d[rCol]);
                 })
-                .attr("height", y.rangeBand());
+                .attr("height", y.rangeBand())
+                .on("mouseover", function(d) {
+          tooltip.transition()
+               .duration(200)
+               .style("opacity", .7);
+          tooltip.html(d["Country Name"] + "<br/> (" + d[rCol] + ")")
+               .style("left", (d3.event.pageX + 5) + "px")
+               .style("top", (d3.event.pageY - 10) + "px");
+      })
+      .on("mouseout", function(d) {
+          tooltip.transition()
+               .duration(500)
+               .style("opacity", 0);
+      });
         chart.selectAll("text.score")
                 .data(data)
                 .enter().append("text")
@@ -141,9 +229,9 @@
                 .attr("dy", ".36em")
                 .attr("text-anchor", "end")
                 .attr('class', 'score')
-                .text(function(d){return d[rCol];});
-        chart.append("text").attr("x",width/3).attr("y", 10).attr("class","title").text("Infant Mortality");
-        chart.append("text").attr("x",width/3+rightOffset).attr("y", 10).attr("class","title").text("GDP");
+                .text(function(d){return Math.floor(d[rCol]);});
+        chart.append("text").attr("x",width/3).attr("y", 10).attr("class","title").text("Electricity Access");
+        chart.append("text").attr("x",width/3+rightOffset).attr("y", 10).attr("class","title").text("Education");
         chart.append("text").attr("x",width+labelArea/3).attr("y", 10).attr("class","title").text("Countries");
 
 
@@ -157,5 +245,6 @@
 
     d3.csv("https://raw.githubusercontent.com/kankani2/CS498Final/master/data.csv", type, render);
 </script>
+
 </body>
 </html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.bar {
+  fill: steelblue;
+}
+
+.axis text {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+    h1{
+        padding-top: 0%;
+        margin-top: 0%;
+        padding-bottom: 0%;
+        margin-bottom: 0%;
+  font-size: 400%;
+  text-align: center;
+}
+body {
+  font: 11px sans-serif;
+  background-color: beige;
+}
+button{
+  background-color:black;
+  color: white;
+
+}
+.curr{
+    background-color:blue;
+
+}
+.Allbuttons{
+    margin-top: 0%;
+    padding-top: 0%;
+    margin-left:45%;
+}
+        .info{
+  background-color: black;
+  opacity: 0.5;
+  position: absolute;
+  left:78vw;
+  color:white;
+  height: 80vh;
+  width: 20vw;
+
+}
+
+</style>
+<body>
+<h1> CS498 Final Project </h1>
+<div>
+<div class="Allbuttons">
+<button onclick="location.href='intro.html'" >1</button>
+<button onclick="location.href='main.html'">2</button>
+<button class = "curr" onclick="location.href='hdi_bar.html'">3</button>
+<button onclick="location.href='index2.html'">4</button>
+
+<button onclick="location.href='index1.html'">5</button>
+</div>
+<div class= "info">
+
+</div>
+</div>
+<svg class="chart"></svg>
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script>
+
+var margin = {top: 20, right: 30, bottom: 30, left: 40},
+    width = 960 - margin.left - margin.right,
+    height = 520 - margin.top - margin.bottom;
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width-80], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+    var cValue = function(d) { return d["Country Name"];},
+    color = d3.scale.category10();
+
+var chart = d3.select(".chart")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.csv("https://raw.githubusercontent.com/kankani2/CS498Final/master/data.csv", type, function(error, data) {
+  x.domain(data.map(function(d) { return d["Country Code"]; }));
+  y.domain([0, d3.max(data, function(d) { return d["HDI"]; })]);
+
+  chart.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  chart.append("g")
+      .attr("class", "y axis")
+      .call(yAxis);
+
+  chart.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d["Country Code"]); })
+      .attr("y", function(d) { return y(d["HDI"]); })
+      .attr("height", function(d) { return height - y(d["HDI"]); })
+      .attr("width", x.rangeBand())
+      .style("fill", function(d) { return color(cValue(d));});
+
+
+var legend = chart.selectAll(".legend")
+      .data(color.domain())
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  // draw legend colored rectangles
+  legend.append("rect")
+      .attr("x", width - 18)
+      .attr("y", 40)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", color);
+
+  // draw legend text
+  legend.append("text")
+      .attr("x", width-24 )
+      .attr("y", 50)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+  .text(function(d) { return d;})
+
+});
+
+function type(d) {
+  d["HDI"] = +d["HDI"]; // coerce to number
+  return d;
+}
+
+  
+
+</script>
+</body>

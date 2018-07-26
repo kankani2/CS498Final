@@ -7,8 +7,12 @@
 <!-- Coding style based on http://gist.github.com/mbostock/5977197 -->
 
 <style>
-h1{
-  font-size: 240%;
+    h1{
+        padding-top: 0%;
+        margin-top: 0%;
+        padding-bottom: 0%;
+        margin-bottom: 0%;
+  font-size: 400%;
   text-align: center;
 }
 body {
@@ -26,11 +30,29 @@ button{
   stroke: #000;
   shape-rendering: crispEdges;
 }
+.curr{
+    background-color:blue;
+
+}
+.Allbuttons{
+    margin-top: 0%;
+    padding-top: 0%;
+    margin-left:45%;
+}
 
 .dot {
   stroke: #000;
 }
+        .info{
+  background-color: black;
+  opacity: 0.5;
+  position: absolute;
+  left:78vw;
+  color:white;
+  height: 80vh;
+  width: 20vw;
 
+}
 .tooltip {
   background-color: grey;
   position: absolute;
@@ -42,14 +64,17 @@ button{
 </style>
 <body>
 <h1> CS498 Final Project </h1>
-<div>
-<button onclick="location.href='index2.html'">1</button>
-<button>2</button>
-<button>3</button>
-<button>4</button>
+<div class="Allbuttons">
+<button onclick="location.href='intro.html'" >1</button>
+<button onclick="location.href='main.html'">2</button>
+<button onclick="location.href='hdi_bar.html'">3</button>
+
+<button onclick="location.href='index2.html'">4</button>
+<button class = "curr" onclick="location.href='index1.html'">5</button>
 </div>
-<div>
-<p> Click on the countries in the legend to highlight one! </p>
+
+<div class= "info">
+
 </div>
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
