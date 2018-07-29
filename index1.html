@@ -37,9 +37,28 @@ button{
 .Allbuttons{
     margin-top: 0%;
     padding-top: 0%;
-    margin-left:45%;
+    margin-left:40%;
 }
-
+.annotation1{
+  position:absolute;
+  left:750px;
+  top: 150px;
+  background-color: black;
+  color:white;
+width:100px;
+padding-left:1%;
+  font: 12px sans-serif;
+}
+.annotation2{
+  position:absolute;
+  left:200px;
+  top: 400px;
+  background-color: black;
+  color:white;
+width:100px;
+padding-left:1%;
+  font: 12px sans-serif;
+}
 .dot {
   stroke: #000;
 }
@@ -49,8 +68,10 @@ button{
   position: absolute;
   left:78vw;
   color:white;
+  font-size: 14px;
   height: 80vh;
   width: 20vw;
+  padding-left: 1%;
 
 }
 .tooltip {
@@ -65,18 +86,28 @@ button{
 <body>
 <h1> CS498 Final Project </h1>
 <div class="Allbuttons">
-<button onclick="location.href='intro.html'" >1</button>
-<button onclick="location.href='main.html'">2</button>
-<button onclick="location.href='hdi_bar.html'">3</button>
+<button onclick="location.href='intro.html'" >About the Visualization</button>
+<button onclick="location.href='main.html'">1</button>
+<button onclick="location.href='hdi_bar.html'">2</button>
 
-<button onclick="location.href='index2.html'">4</button>
-<button class = "curr" onclick="location.href='index1.html'">5</button>
+<button onclick="location.href='index2.html'">3</button>
+<button class = "curr" onclick="location.href='index1.html'">4</button>
 </div>
 
 <div class= "info">
+This slide has a scatter plot for the countries showing where they stand on the graph with the two factors (electricity and education) as the axes and the size of the circles are scaled (scale.sqrt) according to the HDI value of the country.
+<br/>
+Higher the HDI value, larger the circle radius. This scene provides a complete overview. I used the sqrt scale to be able to show the difference between the sizes more vividly. This scene has a transition to show how values grow from slide 3 to 4.
+<br/>
+HOVER on the circles to know the exact values and CLICK on the legend of a country to see only that country's circle.
 
 </div>
-
+<div class = "annotation1">
+The higher along the diagonal, larger are the circle sizes!
+</div>
+<div class = "annotation2">
+The lower along the diagonal, lower are the circle sizes!
+</div>
 <script src="https://d3js.org/d3.v3.min.js"></script>
 
 <script>
@@ -107,7 +138,7 @@ var yValue = function(d) { return d.ELE;}, // data -> value
 var cValue = function(d) { return d["Country Name"];},
     color = d3.scale.category10();
 var hValue = function(d) { return d["HDI"];},
-    hScale = d3.scale.linear().range([0, 20]);
+    hScale = d3.scale.pow().range([0, 20]);
     var clicked = false;
 
 // add the graph canvas to the body of the webpage

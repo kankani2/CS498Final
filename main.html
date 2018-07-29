@@ -29,7 +29,7 @@ button{
 .Allbuttons{
     margin-top: 0%;
     padding-top: 0%;
-    margin-left:45%;
+    margin-left:40%;
 }
         .chart {
             margin: 10px;
@@ -78,6 +78,8 @@ button{
   color:white;
   height: 80vh;
   width: 20vw;
+    font-size: 14px;
+    padding-left: 1%;
 
 }
     </style>
@@ -86,15 +88,18 @@ button{
 
 <h1> CS498 Final Project </h1>
 <div class="Allbuttons">
-<button onclick="location.href='intro.html'" >1</button>
-<button class = "curr" onclick="location.href='main.html'">2</button>
-<button onclick="location.href='hdi_bar.html'">3</button>
-<button onclick="location.href='index2.html'">4</button>
+<button onclick="location.href='intro.html'" >About the Visualization</button>
+<button class = "curr" onclick="location.href='main.html'">1</button>
+<button onclick="location.href='hdi_bar.html'">2</button>
+<button onclick="location.href='index2.html'">3</button>
 
-<button onclick="location.href='index1.html'">5</button>
+<button onclick="location.href='index1.html'">4</button>
 </div>
 <div class= "info">
-Dream
+This slide is a two sided horizontal bar graph representing how each country is doing in terms of its  Access to electricity (% of population) and its Adjusted savings: education expenditure (% of GNI). This graph aims to show how the countries are doing in each of those two things separately in comparison to other countries. 
+<br />
+HOVER on the bars to know the exact education expenditure and electricity access values!
+
 </div>
 
 <script type="text/javascript">
@@ -231,7 +236,7 @@ var tooltip = d3.select("body").append("div")
                 .attr('class', 'score')
                 .text(function(d){return Math.floor(d[rCol]);});
         chart.append("text").attr("x",width/3).attr("y", 10).attr("class","title").text("Electricity Access");
-        chart.append("text").attr("x",width/3+rightOffset).attr("y", 10).attr("class","title").text("Education");
+        chart.append("text").attr("x",width/3+rightOffset).attr("y", 10).attr("class","title").text("Education Expense");
         chart.append("text").attr("x",width+labelArea/3).attr("y", 10).attr("class","title").text("Countries");
 
 
